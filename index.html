@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIPRIS Portal | Transpower Electricity Distribution Limited (TEDL)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-navy: #091e38;
+            --secondary-navy: #132f55;
+            --accent-gold: #f59e0b;
+            --accent-gold-dark: #d97706;
+            --accent-blue: #0284c7;
+            --bg-canvas: #f8fafc;
+            --surface-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-subtle: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-elevation: 0 10px 25px -5px rgba(9, 30, 56, 0.08), 0 8px 10px -6px rgba(9, 30, 56, 0.04);
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Enterprise Banner */
+        .enterprise-bar {
+            background-color: var(--primary-navy);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-pill {
+            background: var(--accent-gold);
+            color: var(--primary-navy);
+            font-weight: 800;
+            font-size: 1.15rem;
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .main-brand-header {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            box-shadow: 0 0 6px #10b981;
+        }
+
+        /* DIPRIS Hero Header */
+        .dipris-hero {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--secondary-navy) 100%);
+            color: #ffffff;
+            padding: 4.25rem 2rem 5rem;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .hero-kicker {
+            display: inline-block;
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+        }
+
+        .system-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 1.25rem;
+        }
+
+        .system-summary {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Portal Content Area */
+        .portal-workspace {
+            flex: 1;
+            max-width: 1240px;
+            width: 100%;
+            margin: -2.5rem auto 4rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .workspace-controls {
+            background: var(--surface-card);
+            padding: 1.25rem 2rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .workspace-controls h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .workspace-controls p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* 9-Button Portal Grid */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Standalone Button Styles */
+        .portal-btn {
+            background-color: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            box-shadow: var(--shadow-subtle);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .portal-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevation);
+            border-color: var(--accent-blue);
+        }
+
+        .portal-btn:focus-visible {
+            outline: 3px solid var(--accent-blue);
+            outline-offset: 2px;
+        }
+
+        .portal-btn::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .portal-btn:hover::after {
+            width: 100%;
+        }
+
+        /* Highlighted style for the aggregate submission portal */
+        .portal-btn.consolidated {
+            background: linear-gradient(180deg, #ffffff 0%, #fefce8 100%);
+            border-color: #fde047;
+            text-decoration: none;
+        }
+
+        .portal-btn.consolidated:hover {
+            border-color: var(--accent-gold-dark);
+        }
+
+        .portal-btn.consolidated::after {
+            background: var(--primary-navy);
+        }
+
+        .btn-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1.2rem;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(2, 132, 199, 0.08);
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .portal-btn.consolidated .icon-box {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gold-dark);
+        }
+
+        .portal-btn:hover .icon-box {
+            background: var(--primary-navy);
+            color: #ffffff;
+        }
+
+        .icon-box svg {
+            width: 26px;
+            height: 26px;
+            stroke-width: 2;
+        }
+
+        .btn-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #475569;
+            letter-spacing: 0.5px;
+        }
+
+        .portal-btn.consolidated .btn-tag {
+            background: #fef08a;
+            color: #854d0e;
+        }
+
+        .btn-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .btn-footer {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .portal-btn.consolidated .btn-footer {
+            color: var(--accent-gold-dark);
+        }
+
+        .portal-btn:hover .btn-footer {
+            gap: 12px;
+            color: var(--primary-navy);
+        }
+
+        /* Corporate Communications Footer */
+        .corporate-footer {
+            background-color: #061325;
+            color: #94a3b8;
+            padding: 3.5rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-grid {
+            max-width: 1240px;
+            margin: 0 auto 3rem;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1fr;
+            gap: 3rem;
+        }
+
+        .dept-title {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dept-title::before {
+            content: "";
+            width: 4px;
+            height: 18px;
+            background: var(--accent-gold);
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .dept-summary {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            color: #cbd5e1;
+        }
+
+        .dept-meta {
+            font-size: 0.82rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .footer-block h4 {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.65rem;
+            font-size: 0.88rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .footer-sub {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-top: 1.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .enterprise-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .system-title {
+                font-size: 1.75rem;
+            }
+            .portal-workspace {
+                margin-top: -1.5rem;
+            }
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header>
+        <div class="enterprise-bar">
+            <div class="brand-block">
+                <span class="brand-pill">TEDL</span>
+                <h1 class="main-brand-header">Transpower Electricity Distribution Limited</h1>
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span>DIPRIS Operational Grid &bull; Live</span>
+            </div>
+        </div>
+
+        <!-- DIPRIS Summary Hero -->
+        <div class="dipris-hero">
+            <div class="hero-inner">
+                <span class="hero-kicker">District Intelligence &amp; Operational Coordination</span>
+                <h2 class="system-title">District Intelligence &amp; Public Relations Information System (DIPRIS)</h2>
+                <p class="system-summary">
+                    DIPRIS is the central operational intelligence system for Transpower Electricity Distribution Limited (TEDL). It synchronizes district-level technical, commercial, customer, and regulatory data directly with corporate communication workflows. The platform ensures seamless accountability, rapid public crisis communication, unified district returns, and proactive stakeholder relations across all franchise territories.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Body Section: 9 Standalone Buttons -->
+    <main class="portal-workspace">
+        <div class="workspace-controls">
+            <div>
+                <h2>Select Operational Reporting Module</h2>
+                <p>Submit district data, review field telemetry, or manage intelligence escalations.</p>
+            </div>
+        </div>
+
+        <div class="portal-grid">
+
+            <!-- 1. Technical Button -->
+             <!--<a href="" class="portal-btn" onclick="openPortal('Technical')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Operations</span>
+                </div>
+                <h3 class="btn-title">Technical</h3>
+                <p class="btn-desc">Feeder availability logs, injection substation telemetry, transformer breakdown reports, line faults, and scheduled maintenance bulletins.</p>
+                <span class="btn-footer">Open Technical Desk &rarr;</span>
+            </a> -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfChrjY3GcfMaAaj0Av4suZsTcRkMK6veoUzxnEDWvSxULfXg/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Technical')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Operations</span>
+                </div>
+                <h3 class="btn-title">Technical</h3>
+                <p class="btn-desc">Feeder availability logs, injection substation telemetry, transformer breakdown reports, line faults, and scheduled maintenance bulletins.</p>
+                <span class="btn-footer">Open Technical Desk &rarr;</span>
+            </a>
+
+            <!-- 2. Commercial Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfECdbzHwobcbJpE4nUO2gewyTtgp77gKv3xIId8aVKCivkTw/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Commercial')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Revenue</span>
+                </div>
+                <h3 class="btn-title">Commercial</h3>
+                <p class="btn-desc">Billing efficiency indexes, district collections, cash recovery drives, Aggregate Technical, Commercial and Collection (ATC&amp;C) loss tracking.</p>
+                <span class="btn-footer">Open Commercial Desk &rarr;</span>
+            </a>
+
+            <!-- 3. Customer Service Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSciqoaV97EL-USJSd1dlJCYypdRAANHMjOWZu8kieD6rFYRbA/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Customer Service')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Relations</span>
+                </div>
+                <h3 class="btn-title">Customer Service</h3>
+                <p class="btn-desc">District complaint tickets, resolution turn-around times, frontline service center feedback, and escalated stakeholder issues.</p>
+                <span class="btn-footer">Open Customer Service Desk &rarr;</span>
+            </a>
+
+            <!-- 4. Billing Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf-HvVExctKG9HD3heFnPnVHDNj1QkKfGcl9Okp6BPS8w3kdw/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Billing')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Finance</span>
+                </div>
+                <h3 class="btn-title">Billing</h3>
+                <p class="btn-desc">Post-paid and prepaid billing runs, energy consumption analysis, tariff band adjustments, and billing dispute reconciliations.</p>
+                <span class="btn-footer">Open Billing Desk &rarr;</span>
+            </a>
+
+            <!-- 5. Metering Button -->
+            <a href="" class="portal-btn" onclick="openPortal('Metering')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Field Assets</span>
+                </div>
+                <h3 class="btn-title">Metering</h3>
+                <p class="btn-desc">Meter installation tracking, smart meter rollouts, seal verification audits, meter bypass detection, and test lab calibration reports.</p>
+                <span class="btn-footer">Open Metering Desk &rarr;</span>
+            </a>
+
+            <!-- 6. Safety (HSE) Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-XGn785OlryCRg45m3AeSzrqEKYWgvxWaqMFb1PqZaKptJw/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Safety (HSE)')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Compliance</span>
+                </div>
+                <h3 class="btn-title">Safety (HSE)</h3>
+                <p class="btn-desc">Occupational health incident logs, near-miss notifications, PPE inspection logs, electrical right-of-way infractions, and safety protocol enforcement.</p>
+                <span class="btn-footer">Open Safety Desk &rarr;</span>
+            </a>
+
+            <!-- 7. Security Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjZHDZpw3i29fqcAe53glFU2B0KNACqJN3JU1HUAPXWDR8Vg/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Security')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Protection</span>
+                </div>
+                <h3 class="btn-title">Security</h3>
+                <p class="btn-desc">Asset surveillance, transformer oil/cable vandalism alerts, security agency liaison records, and critical infrastructure guard logs.</p>
+                <span class="btn-footer">Open Security Desk &rarr;</span>
+            </a>
+
+            <!-- 8. Regulatory Button -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfi6QSoMlZldCf0YXQr4jgAibaOmqR7jU8R3PVyVzZ8slznGA/viewform?usp=publish-editor" class="portal-btn" onclick="openPortal('Regulatory')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Standards</span>
+                </div>
+                <h3 class="btn-title">Regulatory</h3>
+                <p class="btn-desc">Nigerian Electricity Regulatory Commission (NERC) statutory filings, service level compliance benchmarks, query replies, and policy audit trails.</p>
+                <span class="btn-footer">Open Regulatory Desk &rarr;</span>
+            </a>
+
+            <!-- 9. Consolidated District Submission Button -->
+            <a href="C:\Users\HP\Documents\DIPRIS Form\districtreport.html" class="portal-btn consolidated" onclick="openPortal('Consolidated District Submission')">
+                <div class="btn-header-row">
+                    <div class="icon-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <span class="btn-tag">Executive Rollup</span>
+                </div>
+                <h3 class="btn-title">Consolidated District Submission</h3>
+                <p class="btn-desc">Unified periodic returns synthesizing technical, commercial, and operational performance metrics across all feeder territories into one executive filing.</p>
+                <span class="btn-footer">Launch Consolidated Submission &rarr;</span>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer: Corporate Communications Department -->
+    <footer class="corporate-footer">
+        <div class="footer-grid">
+            <div>
+                <h3 class="dept-title">Corporate Communications Department</h3>
+                <p class="dept-summary">
+                    The Corporate Communications Department of Transpower Electricity Distribution Limited (TEDL) maintains and administers DIPRIS. Our mandate is to bridge district-level operational intelligence with proactive public relations, strategic stakeholder diplomacy, prompt consumer advisories, and reputation management.
+                </p>
+                <p class="dept-meta">
+                    Responsible for official press briefings, community stakeholder engagements, media broadcast liaison, and internal information dissemination across TEDL districts.
+                </p>
+            </div>
+
+            <div class="footer-block">
+                <h4>Communications &amp; Media Desk</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:corp.comm@transpower.com.ng">corp.comm@transpower.com.ng</a></li>
+                    <li><a href="tel:+2348000000000">+234 (0) 800-TRANSPOWER</a></li>
+                    <li><a href="#">Media Advisory &amp; Press Kits</a></li>
+                    <li><a href="#">Customer Outage Bulletins</a></li>
+                    <li><a href="#">Town Hall Meeting Registry</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-block">
+                <h4>DIPRIS Governance</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Data Confidentiality Policy</a></li>
+                    <li><a href="#">District Return Timelines</a></li>
+                    <li><a href="#">NERC Media Disclosure Guidelines</a></li>
+                    <li><a href="#">DIPRIS Technical Support</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-sub">
+            <div>
+                &copy; 2026 Transpower Electricity Distribution Limited (TEDL). All rights reserved.
+            </div>
+            <div>
+                Published &amp; Maintained by Directorate of Corporate Communications &bull; DIPRIS Build 3.1
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openPortal(moduleName) {
+            console.log("Navigating to DIPRIS module:", moduleName);
+            alert(`Opening DIPRIS [${moduleName.toUpperCase()}] Module...`);
+        }
+    </script>
+</body>
+</html>
